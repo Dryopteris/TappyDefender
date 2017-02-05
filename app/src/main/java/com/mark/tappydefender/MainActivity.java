@@ -21,8 +21,10 @@ public class MainActivity extends Activity
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, GameActivity.class);
+
         // Starts GameActivity
         startActivity(intent);
+
         // Shuts MainActivity down
         finish();
     }
