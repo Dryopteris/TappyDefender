@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import static android.view.MotionEvent.*;
 
 /**
  * Created by Mark on 2/5/2017.
@@ -21,12 +24,12 @@ public class TDView extends SurfaceView implements Runnable {
     private Canvas canvas;
     private SurfaceHolder ourHolder;
 
-    public TDView(Context context) {
+    public TDView(Context context, int x, int y) {
         super(context);
 
         ourHolder = getHolder();
         paint = new Paint();
-        player = new PlayerShip(context);
+        player = new PlayerShip(context, x, y);
     }
 
     public void pause() {
@@ -54,7 +57,25 @@ public class TDView extends SurfaceView implements Runnable {
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+
+        switch (motionEvent.getAction() & ACTION_MASK) {
+
+            case ACTION_UP:
+                player.stopBoosting();
+                break;
+
+            case ACTION_DOWN:
+                player.setBoosting();
+                break;
+        }
+
+        return true;
+    }
+
     private void update() {
+
         player.update();
     }
 
